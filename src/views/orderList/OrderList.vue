@@ -87,7 +87,7 @@ export default {
   top: 0;
   bottom: .5rem;
   right: 0;
-  background: rgb(248, 248,248);
+  background: $dark-bgColor;
 }
 .title {
   line-height: .44rem;

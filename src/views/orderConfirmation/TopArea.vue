@@ -1,38 +1,54 @@
 <template>
   <div class="top">
-      <div class="top__header">
-        <div
-          class="iconfont top__header__back"
-          @click="handleBackClick"
-        >&#xe6f2;</div>
-        确认订单
-      </div>
-      <div class="top__receiver">
-        <div class="top__receiver__title">收货地址</div>
-        <div class="top__receiver__address">北京理工大学国防科技园2号楼10层</div>
+    <div class="top__header">
+      <div
+        class="iconfont top__header__back"
+        @click="handleBackClick"
+      >&#xe6f2;</div>
+      确认订单
+    </div>
+    <div class="top__receiver">
+      <div class="top__receiver__title">收货地址</div>
+      <div v-if="address" @click="handleAddressClick">
+        <div class="top__receiver__address">
+          {{address.city}}{{address.department}}{{address.houseNumber}}
+        </div>
         <div class="top__receiver__info">
-          <span class="top__receiver__info__name">瑶妹（先生）</span>
-          <span class="top__receiver__info__name">18911024266</span>
+          <span class="top__receiver__info__name">{{address.name}}</span>
+          <span class="top__receiver__info__name">{{address.phone}}</span>
         </div>
         <div class="iconfont top__receiver__icon">&#xe6f2;</div>
       </div>
+      <div v-else>
+        <div class="top__receiver__address">
+          暂无可用地址
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import useAddressEffect from './addressEffect'
+
 export default {
   name: 'TopArea',
   setup() {
     const router = useRouter()
+    const route = useRoute()
+    const shopId = route.params.id
     const handleBackClick = () => { router.back() }
-    return { handleBackClick }
+    const handleAddressClick = () => { router.push(`/chooseAddressList/${shopId}`) }
+    const address = useAddressEffect()
+    return { handleBackClick, handleAddressClick, address }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../../style/viriables.scss';
+@import '../../style/mixins.scss';
 .top {
   position: relative;
   height: 1.96rem;
@@ -71,6 +87,7 @@ export default {
       padding: 0 .4rem 0 .16rem;
       font-size: .14rem;
       color: $content-fontcolor;
+      @include ellipsis;
     }
     &__info {
       padding: .06rem 0 0 .16rem;

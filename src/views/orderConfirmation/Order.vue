@@ -1,7 +1,11 @@
 <template>
   <div class="order">
     <div class="order__price">实付金额 <b>¥{{calculations.price}}</b></div>
-    <div class="order__btn" @click="() => handleShowConfirmChange(true)">提交订单</div>
+    <div
+      v-if="address"
+      class="order__btn"
+      @click="() => handleShowConfirmChange(true)"
+    >提交订单</div>
   </div>
   <div
     class="mask"
@@ -31,9 +35,10 @@ import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { post } from '../../utils/request'
 import { useCommonCartEffect } from '../../effects/cartEffects'
+import useAddressEffect from './addressEffect'
 
 // 下单相关逻辑
-const useMakeOrderEffect = (shopId, shopName, productList) => {
+const useMakeOrderEffect = (shopId, shopName, productList, address) => {
   const router = useRouter()
   const store = useStore()
 
@@ -41,18 +46,18 @@ const useMakeOrderEffect = (shopId, shopName, productList) => {
     const products = []
     for(let i in productList.value) {
       const product = productList.value[i]
-      products.push({id: parseInt(product._id, 10), num: product.count})
+      products.push({id: product._id, num: product.count})
     }
     try {
       const result = await post('/api/order', {
-        addressId: 1,
+        addressId: address.value._id,
         shopId,
         shopName: shopName.value,
         isCanceled,
         products
       })
       if (result?.errno === 0) {
-        store.commit('clearCartData', shopId)
+        store.commit('clearCartData11', shopId)
         router.push({ name: 'OrderList' })
       } 
     } catch (e) {
@@ -75,11 +80,12 @@ export default {
   name: 'Order',
   setup() {
     const route = useRoute()
-    const shopId = parseInt(route.params.id, 10)
+    const shopId = route.params.id
+    const address = useAddressEffect()
     const { calculations, shopName, productList } = useCommonCartEffect(shopId)
-    const { handleConfirmOrder } = useMakeOrderEffect(shopId, shopName, productList)
+    const { handleConfirmOrder } = useMakeOrderEffect(shopId, shopName, productList, address)
     const { showConfirm, handleShowConfirmChange } = useShowMaskEffect()
-    return { showConfirm, handleShowConfirmChange, calculations, handleConfirmOrder }
+    return { address, showConfirm, handleShowConfirmChange, calculations, handleConfirmOrder }
   }
 }
 </script>
@@ -103,8 +109,8 @@ export default {
   }
   &__btn {
     width: .98rem;
-    background: #4FB0F9;
-    color: #fff;
+    background: $btn-bgColor;
+    color: $bgColor;
     text-align: center;
     font-size: .14rem;
   }
@@ -116,7 +122,7 @@ export default {
   right: 0;
   bottom: 0;
   top: 0;
-  background: rgba(0,0,0,0.50);
+  background: rgba(0, 0, 0, .5);
   &__content {
     position: absolute;
     top: 50%;
@@ -124,19 +130,19 @@ export default {
     transform: translate(-50%, -50%);
     width: 3rem;
     height: 1.56rem;
-    background: #FFF;
+    background: $bgColor;
     text-align: center;
     border-radius: .04rem;
     &__title {
       margin: .24rem 0 0 0;
       line-height: .26rem;
       font-size: .18rem;
-      color: #333;
+      color: $content-fontcolor;
     }
     &__desc {
       margin: .08rem 0 0 0;
       font-size: .14rem;
-      color: #666666;
+      color: $medium-fontColor;
     }
     &__btns {
       display: flex;
@@ -150,12 +156,12 @@ export default {
       font-size: .14rem;
       &--first {
         margin-right: .12rem;
-        border: .01rem solid #4FB0F9;
-        color: #4FB0F9;
+        border: .01rem solid $btn-bgColor;
+        color: $btn-bgColor;
       }
       &--last {
         margin-left: .12rem;
-        background: #4FB0F9;
+        background: $btn-bgColor;
         color: #fff;
       }
     }

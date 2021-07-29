@@ -9,7 +9,7 @@ const routes = [{
     name: 'CartList',
     component: () => import(/* webpackChunkName: "cartList" */ '../views/cartList/CartList')
   },{
-    path: '/orderConfirmation/:id',
+    path: '/orderConfirmation/:id/:addressId?',
     name: 'OrderConfirmation',
     component: () => import(/* webpackChunkName: "orderConfirmation" */ '../views/orderConfirmation/OrderConfirmation')
   }, {
@@ -36,15 +36,23 @@ const routes = [{
       const { isLogin } = localStorage;
       isLogin ? next({ name: 'Home'}):  next();
     }
-  },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   
-  // }
+  }, {
+    path: '/chooseAddressList/:shopId',
+    name: 'ChooseAddressList',
+    component: () => import(/* webpackChunkName: "chooseAddressList" */ '../views/chooseAddressList/ChooseAddressList'),
+  },{
+    path: '/myAddressList',
+    name: 'MyAddressList',
+    component: () => import(/* webpackChunkName: "myAddressList" */ '../views/myAddressList/MyAddressList'),
+  }, {
+    path: '/upsertAddress/:id?',
+    name: 'UpsertAddress',
+    component: () => import(/* webpackChunkName: "upsertAddress" */ '../views/upsertAddress/UpsertAddress'),
+  }, {
+    path: '/person',
+    name: 'PersonalInfo',
+    component: () => import(/* webpackChunkName: "person" */ '../views/personalInfo/PersonalInfo'),
+  }
 ]
 
 const router = createRouter({
