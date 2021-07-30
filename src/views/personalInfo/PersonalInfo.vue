@@ -2,12 +2,12 @@
   <div class="wrapper">
     <div class="header">
       <div class="header__info">
-        <div class="header__info__user">{{userInfo.username}}</div>
+        <div class="header__info__user">Punk</div>
         <div class="header__info__id">ID:{{userInfo._id}}</div>
       </div>
       <img
         class="header__avatar"
-        src="http://www.dell-lee.com/imgs/avatar.jpg"
+        :src="imageSrc"
       />
     </div>
     <div class="list">
@@ -47,6 +47,7 @@ export default {
   components: { Docker },
   setup() {
     const router = useRouter()
+    const imageSrc = require("@/assets/avater/vss.png")
     const handleLogout = () => {
       localStorage.removeItem('isLogin')
       router.replace({ name: 'Login'})
@@ -55,7 +56,7 @@ export default {
       router.push({ name: 'MyAddressList'})
     }
     const userInfo = useUserEffect()
-    return { handleLogout, handleAddressClick, userInfo }
+    return { handleLogout, handleAddressClick, userInfo,imageSrc }
   }
 }
 </script>

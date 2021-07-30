@@ -1,4 +1,5 @@
 <template>
+<div class="main">
   <div class="wrapper">
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png"/>
     <div class="wrapper__input">
@@ -29,6 +30,7 @@
     <div class="wrapper__register-link" @click="handleLoginClick">已有账号去登陆</div>
     <Toast v-if="show" :message="toastMessage"/>
   </div>
+</div>
 </template>
 
 <script>

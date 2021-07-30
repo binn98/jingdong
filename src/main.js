@@ -4,5 +4,5 @@ import router from './router'
 import store from './store'
 import 'normalize.css'
 import './style/index.scss'
-
-createApp(App).use(router).use(store).mount('#app')
+import { Swipe, SwipeItem } from 'vant';
+createApp(App).use(router).use(store).use(Swipe).use(SwipeItem).mount('#app')

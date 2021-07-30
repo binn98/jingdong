@@ -9,10 +9,25 @@
     <span class="search__text">山姆会员商店优惠商品</span>
   </div>
   <div class="banner">
-    <img
-      class="banner__img"
-      src="http://www.dell-lee.com/imgs/vue3/banner.jpg"
-    />
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+       <van-swipe-item>
+         <img
+           class="banner__img"
+           src="http://www.dell-lee.com/imgs/vue3/banner.jpg"
+         />
+       </van-swipe-item>
+       <van-swipe-item>
+          <img
+          class="banner__img"
+          :src="imageSrc"
+        />
+       </van-swipe-item> 
+    </van-swipe>
+    <!-- <van-swipe :autoplay="3000" lazy-render class="my-swipe">
+  <van-swipe-item v-for="image in images" :key="image">
+    <img class="banner__img" :src="image" />
+  </van-swipe-item>
+</van-swipe> -->
   </div>
   <div class="icons">
     <div
@@ -31,6 +46,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'StaticPart',
   setup() {
@@ -46,7 +62,12 @@ export default {
       { imgName: "大牌免运", desc: "大牌免运"},
       { imgName: "红包", desc: "红包套餐"},
     ]
-    return { iconsList }
+    const images = [
+      'https://img.yzcdn.cn/vant/apple-1.jpg',
+      'https://img.yzcdn.cn/vant/apple-2.jpg',
+    ];
+    const imageSrc = require("@/assets/avater/vss.png")
+    return { iconsList,imageSrc,images }
   }
 }
 </script>
@@ -121,4 +142,13 @@ export default {
   height: .1rem;
   background: $content-bgColor;
 }
+.my-swipe .van-swipe-item {
+    color: #fff;
+    font-size: 20px;
+    // line-height: 150px;
+    text-align: center;
+    background-color: #39a9ed;
+    height: 90px;
+    overflow: hidden;
+  }
 </style>

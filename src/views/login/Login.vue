@@ -1,4 +1,5 @@
 <template>
+<div class="main">
   <div class="wrapper">
     <img class="wrapper__img" src='http://www.dell-lee.com/imgs/vue3/user.png' />
     <div class="wrapper__input">
@@ -21,6 +22,7 @@
     <div class="wrapper__login-link" @click="handleRegisterClick">立即注册</div>
     <Toast v-if="show" :message="toastMessage"/>
   </div>
+</div>
 </template>
 
 <script>
@@ -32,7 +34,7 @@ import Toast, { useToastEffect } from '../../components/Toast'
 // 处理注册逻辑
 const useLoginEffect = (showToast) => {
   const router = useRouter()
-  const data = reactive({ username: '', password: '' })
+  const data = reactive({ username: 'admin', password: '123456' })
 
   const handleLogin = async () => {
     try {
@@ -89,6 +91,7 @@ export default {
   left: 0;
   right: 0;
   transform: translateY(-50%);
+  
   &__img {
     display: block;
     margin: 0 auto .4rem auto;
@@ -133,5 +136,13 @@ export default {
     font-size: .14rem;
     color: $content-notice-fontcolor;
   }
+}
+</style>
+<style >
+.main{
+  width: 100%;
+  height: 100vh;
+  background-image: url('../../assets/avater/vss.png');
+  background-size: cover;
 }
 </style>
